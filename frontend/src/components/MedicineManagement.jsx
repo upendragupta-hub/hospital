@@ -12,11 +12,11 @@ import {
   Filter,
 } from 'lucide-react';
 import axios from 'axios';
+import { SOCKET_URL } from '../config/runtime';
 
 axios.defaults.withCredentials = true;
 
-const backendPort = process.env.BACKEND_PORT || 5001;
-const socket = io(`${window.location.protocol}//${window.location.hostname}:${backendPort}`, {
+const socket = io(SOCKET_URL, {
   transports: ['websocket', 'polling'],
 });
 

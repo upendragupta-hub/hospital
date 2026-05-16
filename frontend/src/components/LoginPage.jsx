@@ -53,7 +53,7 @@ export default function LoginPage({ onLoginSuccess }) {
         setError(result.error);
       }
     } catch (err) {
-      setError('An unexpected error occurred.');
+      setError(err?.message || 'Unable to continue right now.');
     } finally {
       setLoading(false);
     }

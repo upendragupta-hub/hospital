@@ -31,12 +31,11 @@ import {
 import { useUserAuth } from '../context/UserAuthContext';
 import AppointmentForm from './AppointmentForm';
 import { ensureRazorpayLoaded, getRazorpayKeyId } from '../utils/razorpay';
+import { SOCKET_URL } from '../config/runtime';
 
 // Global axios configuration to send cookies with every request
 axios.defaults.withCredentials = true;
 
-const backendPort = process.env.BACKEND_PORT || 5001;
-const ambulanceSocketUrl = `${window.location.protocol}//${window.location.hostname}:${backendPort}`;
 const ambulanceRequestStatusClasses = {
   Pending: 'bg-amber-100 text-amber-700',
   Assigned: 'bg-sky-100 text-sky-700',
@@ -188,7 +187,7 @@ const UserDashboard = () => {
   useEffect(() => {
     if (!user) return undefined;
 
-    const socket = io(ambulanceSocketUrl, {
+    const socket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
     });
 

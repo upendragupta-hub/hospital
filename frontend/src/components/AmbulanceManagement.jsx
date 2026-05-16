@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { motion } from 'framer-motion';
+import { SOCKET_URL } from '../config/runtime';
 import {
   Activity,
   AlertTriangle,
@@ -29,8 +30,6 @@ import {
   Wrench,
 } from 'lucide-react';
 
-const backendPort = process.env.BACKEND_PORT || 5001;
-const socketUrl = `${window.location.protocol}//${window.location.hostname}:${backendPort}`;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const VEHICLE_TYPES = ['AC', 'Non-AC', 'ICU', 'Oxygen-supported'];
@@ -478,7 +477,7 @@ export default function AmbulanceManagement({ mode = 'admin' }) {
   }, [dashboard.ambulances, focusedAmbulanceId, selectedDriverAmbulanceId, mode]);
 
   useEffect(() => {
-    const socket = io(socketUrl, {
+    const socket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
     });
 

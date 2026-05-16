@@ -46,7 +46,7 @@ export default function UserLogin({ onLoginSuccess, onNavigate }) {
         setMessage(result?.error || 'Unable to continue right now.');
       }
     } catch (err) {
-      setMessage('An unexpected error occurred.');
+      setMessage(err?.message || 'Unable to continue right now.');
     } finally {
       setLoading(false);
     }

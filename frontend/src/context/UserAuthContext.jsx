@@ -96,6 +96,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { getRequestErrorMessage } from '../utils/httpError';
 
 const UserAuthContext = createContext(null);
 
@@ -155,23 +156,30 @@ export const UserAuthProvider = ({ children }) => {
   };
 
   const userLogin = async (email, password) => {
-    const res = await axios.post('/api/users/login', {
-      email,
-      password,
-    });
+    try {
+      const res = await axios.post('/api/users/login', {
+        email,
+        password,
+      });
 
-    if (res.data.success) {
-      localStorage.setItem('userToken', res.data.data.token);
+      if (res.data.success) {
+        localStorage.setItem('userToken', res.data.data.token);
 
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${res.data.data.token}`;
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${res.data.data.token}`;
 
-      setUser(extractUser(res.data.data));
+        setUser(extractUser(res.data.data));
 
-      setIsUserAuthenticated(true);
+        setIsUserAuthenticated(true);
 
-      return res.data;
+        return res.data;
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: getRequestErrorMessage(error, 'Login failed'),
+      };
     }
   };
 
@@ -181,25 +189,32 @@ export const UserAuthProvider = ({ children }) => {
     password,
     phone
   ) => {
-    const res = await axios.post('/api/users/register', {
-      username,
-      email,
-      password,
-      phone,
-    });
+    try {
+      const res = await axios.post('/api/users/register', {
+        username,
+        email,
+        password,
+        phone,
+      });
 
-    if (res.data.success) {
-      localStorage.setItem('userToken', res.data.data.token);
+      if (res.data.success) {
+        localStorage.setItem('userToken', res.data.data.token);
 
-      axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${res.data.data.token}`;
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${res.data.data.token}`;
 
-      setUser(extractUser(res.data.data));
+        setUser(extractUser(res.data.data));
 
-      setIsUserAuthenticated(true);
+        setIsUserAuthenticated(true);
 
-      return res.data;
+        return res.data;
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: getRequestErrorMessage(error, 'Registration failed'),
+      };
     }
   };
 

@@ -12,7 +12,7 @@
 //          try {
 
 //             const res = await axios.get(
-//                "http://localhost:5001/api/doctors"
+//                "/api/doctors"
 //             );
 
 //             // ✅ FIX
@@ -107,7 +107,7 @@ export default function Doctors() {
       try {
 
         const res = await axios.get(
-          "http://localhost:5001/api/doctors"
+          "/api/doctors"
         );
 
         setDoctors(res.data.data || []);

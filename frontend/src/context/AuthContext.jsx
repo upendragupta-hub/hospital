@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { getRequestErrorMessage } from '../utils/httpError';
 
 const AuthContext = createContext(null);
 
@@ -74,7 +75,7 @@ export function AuthProvider({ children }) {
         return { success: true, admin: adminData };
       }
     } catch (error) {
-      const message = error.response?.data?.message || 'Login failed';
+      const message = getRequestErrorMessage(error, 'Login failed');
       return { success: false, error: message };
     }
   }, []);
@@ -102,7 +103,7 @@ export function AuthProvider({ children }) {
         return { success: true, admin: adminData };
       }
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed';
+      const message = getRequestErrorMessage(error, 'Registration failed');
       return { success: false, error: message };
     }
   }, []);
@@ -133,7 +134,7 @@ export function AuthProvider({ children }) {
         return { success: true, admin: response.data.data.admin };
       }
     } catch (error) {
-      const message = error.response?.data?.message || 'Update failed';
+      const message = getRequestErrorMessage(error, 'Update failed');
       return { success: false, error: message };
     }
   }, []);
@@ -150,7 +151,7 @@ export function AuthProvider({ children }) {
         return { success: true };
       }
     } catch (error) {
-      const message = error.response?.data?.message || 'Password change failed';
+      const message = getRequestErrorMessage(error, 'Password change failed');
       return { success: false, error: message };
     }
   }, []);
