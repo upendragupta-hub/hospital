@@ -5,8 +5,8 @@ JWT_EXPIRES_IN=7d
 JWT_REFRESH_EXPIRES_IN=30d
 NODE_ENV=development
 BACKEND_PORT=5000
-FRONTEND_URL=http://localhost:3000
-BACKEND_PUBLIC_URL=http://localhost:5001
+FRONTEND_URL=https://hospital-rweq.vercel.app
+BACKEND_PUBLIC_URL=https://hospital-1l4s.onrender.com
 
 RAZORPAY_KEY_ID=rzp_test_SjzPCZYvQKABgm
 RAZORPAY_KEY_SECRET=7kEhOG186Hwwy9qs8b8DXDUC

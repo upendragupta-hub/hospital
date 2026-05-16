@@ -1,20 +1,23 @@
 import { Server } from 'socket.io';
 
 let ioInstance;
+const localFrontendOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3001',
+];
 
 export function initSocketServer(server) {
   if (ioInstance) return ioInstance;
 
+  const allowedOrigins = Array.from(
+    new Set([process.env.FRONTEND_URL, ...localFrontendOrigins].filter(Boolean)),
+  );
+
   ioInstance = new Server(server, {
     cors: {
-      origin: process.env.NODE_ENV === 'production'
-        ? process.env.FRONTEND_URL
-        : [
-            'http://localhost:3000',
-            'http://127.0.0.1:3000',
-            'http://localhost:3001',
-            'http://127.0.0.1:3001',
-          ],
+      origin: allowedOrigins,
       methods: ['GET', 'POST'],
       credentials: true,
     },
